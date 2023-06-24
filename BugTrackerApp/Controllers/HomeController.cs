@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace BugTrackerApp.Controllers
 {
-    // [Authorize(Roles = "Admin, Manager, Developer")]
+    [Authorize(Roles = "Admin, Manager, Developer")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
