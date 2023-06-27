@@ -6,7 +6,7 @@
             <h2 class="text-primary">Create Project</h2>
             <hr />
         </div>
-        <div asp-validation-summary="All"></div>                               <!--display all error messages-->
+        <!--<div asp-validation-summary="All"></div>   -->                      <!--display all error messages-->
         <div class="mb-3">
             <label asp-for="Name"></label>
             <input asp-for="Name" class="form-control" />
@@ -23,4 +23,12 @@
         </a>
     </div>
 </form>
+
+<!--client side validation using built in partial view-->
+@section Scripts
+{
+    @{
+        <partial name="_ValidationScriptsPartial.cshtml" />
+    }
+}
 
