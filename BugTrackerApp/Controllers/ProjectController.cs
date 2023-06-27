@@ -18,5 +18,22 @@ namespace BugTrackerApp.Controllers
             IEnumerable<Project> objProjectList = _db.Projects;
             return View(objProjectList);
         }
+
+        //GET
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken] //prevent cross-site request forgery. Not required but recommended
+        public IActionResult Create(Project obj)
+        {
+            _db.Projects.Add(obj);
+            _db.SaveChanges();
+            return RedirectToAction("Index");// if returning to an action method inside a different controller, do this
+                                             // return RedirectToAction("Index", "<controller-name");
+        }
     }
 }
