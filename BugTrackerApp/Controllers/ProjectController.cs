@@ -92,5 +92,44 @@ namespace BugTrackerApp.Controllers
             return View(obj);
         }
 
+        //GET
+        public IActionResult Delete(int? id)
+        {
+            // validation check
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var projectFromDb = _db.Projects.Find(id);
+            //var projectFromDbFirst = _db.Projects.FirstOrDefault(u=>u.Id == id);
+            //var projectFromDbSingle = _db.Projects.SingleOrDefault(u => u.Id == id);
+
+            // check if the project with received id exists
+            if (projectFromDb == null)
+            {
+                return NotFound();
+            }
+
+            return View(projectFromDb);
+        }
+
+        //POST
+        [HttpPost, ActionName("Delete")] // this allows you to simply call the post action method "delete" in the delete view
+        [ValidateAntiForgeryToken] //prevent cross-site request forgery. Not required but recommended
+        public IActionResult DeletePOST(int? id)    //GET and POST methods can't have exact same signatures, hence "DeletePOST"
+        {
+            // check if the project exists
+            var obj = _db.Projects.Find(id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            
+            // delete the found project in the database
+            _db.Projects.Remove(obj);
+            _db.SaveChanges();
+            return RedirectToAction("Index");// if returning to an action method inside a different controller, do this
+                                                // return RedirectToAction("Index", "<controller-name>")
+        }
     }
 }
