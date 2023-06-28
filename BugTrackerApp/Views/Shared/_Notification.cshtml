@@ -1,0 +1,28 @@
+﻿@if (TempData["success"] != null)
+{
+    // jquery reference
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    // script for toastr notification
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    
+    // Display a success toast, with a title
+    <script type="text/javascript">
+        toastr.success('@TempData["success"]');
+    </script>
+
+}
+
+@if (TempData["error"] != null)
+{
+    // jquery reference
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    // script for toastr notifcation 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    // display an error toast, with a title
+    <script type="text/javascript">
+        toastr.success('@TempData["error"]');
+    </script>
+}
