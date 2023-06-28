@@ -27,6 +27,7 @@
             <th>
                 Project Description
             </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -38,6 +39,13 @@
                 </td>
                 <td width="30%">
                     @obj.Description
+                </td>
+                <td>
+                    <div class="w-75 btn-group" role="group">
+                        @*When user clicks edit, go back to project controller, access edit method and pass it the project ID*@
+                        <a asp-controller="Project" asp-action="Edit" asp-route-id="@obj.Id"
+                        class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i>Edit</a>
+                    </div>
                 </td>
             </tr>
         }

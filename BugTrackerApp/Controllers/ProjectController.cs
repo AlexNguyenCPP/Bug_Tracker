@@ -47,5 +47,50 @@ namespace BugTrackerApp.Controllers
 
             return View(obj);
         }
+
+        //GET
+        public IActionResult Edit(int? id)
+        {
+            // validation check
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var projectFromDb = _db.Projects.Find(id);
+            //var projectFromDbFirst = _db.Projects.FirstOrDefault(u=>u.Id == id);
+            //var projectFromDbSingle = _db.Projects.SingleOrDefault(u => u.Id == id);
+
+            // check if the project with received id exists
+            if (projectFromDb == null)
+            {
+                return NotFound();
+            }
+
+            return View(projectFromDb);
+        }
+
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken] //prevent cross-site request forgery. Not required but recommended
+        public IActionResult Edit(Project obj)
+        {
+            // make sure the description and the name are not the same
+            if (obj.Name == obj.Description)
+            {
+                ModelState.AddModelError("Name", "The name cannot match the description");
+            }
+
+            // server side validation
+            if (ModelState.IsValid)
+            {
+                // update the created project in the database
+                _db.Projects.Update(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");// if returning to an action method inside a different controller, do this
+            }                                    // return RedirectToAction("Index", "<controller-name");
+
+            return View(obj);
+        }
+
     }
 }
