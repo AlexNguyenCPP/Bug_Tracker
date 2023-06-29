@@ -7,6 +7,12 @@ namespace BugTrackerApp.Models
 {
     public class Project
     {
+        // make sure Ticket object is never null 
+        public Project()
+        {
+            Tickets = new List<Ticket>();
+        }
+
         [Key]
         public int Id { get; set; }
         [Required]

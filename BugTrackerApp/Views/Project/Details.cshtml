@@ -27,24 +27,23 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.CreatedDateTime)
-        </dd>
-        <dd class="col-sm-10">
-            <h2>Tickets</h2>
-            @if (Model.Tickets.Any())
-            {
-                <ul>
-                    @foreach (var ticket in Model.Tickets)
-                    {
-                        <li>@ticket.Title - @ticket.Description</li>
-                    }
-                </ul>
-            }
-            else
-            {
-                <p>No tickets found for this project.</p>
-            }
-        </dd>
+        </dd>               
     </dl>
+    <hr />
+    <h4>Tickets</h4>
+    @if (Model.Tickets.Any())
+    {
+        <ul>
+            @foreach (var ticket in Model.Tickets)
+            {
+                <li>@ticket.Title - @ticket.Description</li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No tickets found for this project.</p>
+    }
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
