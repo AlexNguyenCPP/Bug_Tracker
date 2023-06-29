@@ -1,6 +1,7 @@
 ﻿using BugTrackerApp.Data;
 using BugTrackerApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BugTrackerApp.Controllers
 {
@@ -134,5 +135,18 @@ namespace BugTrackerApp.Controllers
             return RedirectToAction("Index");// if returning to an action method inside a different controller, do this
                                                 // return RedirectToAction("Index", "<controller-name>")
         }
+
+        // view project details
+        public IActionResult Details(int id)
+        {
+            var project = _db.Projects.Include(p => p.Tickets).SingleOrDefault(p => p.Id == id);
+            
+            if (project == null)
+            {
+                return NotFound();
+            }
+            return View(project);
+        }
+
     }
 }

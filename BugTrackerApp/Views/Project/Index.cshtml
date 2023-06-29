@@ -42,9 +42,10 @@
                 </td>
                 <td>
                     <div class="w-75 btn-group" role="group">
-                        @*When user clicks edit, go back to project controller, access edit method and pass it the project ID*@
-                        <a asp-controller="Project" asp-action="Edit" asp-route-id="@obj.Id"
-                        class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i>Edit</a>
+                        <a asp-controller="Project" asp-action="Details" asp-route-id="@obj.Id"
+                        class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i>Details</a>
+                        <a asp-controller="Project" asp-action="Edit" asp-route-id="@obj.Id"            
+                        class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i>Edit</a>        
                         <a asp-controller="Project" asp-action="Delete" asp-route-id="@obj.Id"
                         class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
                     </div>

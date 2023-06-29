@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BugTrackerApp.Models
@@ -14,7 +15,7 @@ namespace BugTrackerApp.Models
         public DateTime CreatedDateTime { get; set; } = DateTime.Now;
 
         // tickets and users linked to the project
-        //public ICollection<Ticket> Tickets { get; set; }
-        //public ICollection<IdentityUser> Users { get; set; }
+        public ICollection<Ticket> Tickets { get; set; }
+       // public ICollection<IdentityUser> Users { get; set; }
     }
 }

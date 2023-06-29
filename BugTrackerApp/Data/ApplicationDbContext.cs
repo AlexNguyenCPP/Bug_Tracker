@@ -12,5 +12,8 @@ namespace BugTrackerApp.Data
 
         // Project model
         public DbSet<Project> Projects { get; set; }
+
+        // Project model
+        public DbSet<BugTrackerApp.Models.Ticket>? Ticket { get; set; }
     }
 }
