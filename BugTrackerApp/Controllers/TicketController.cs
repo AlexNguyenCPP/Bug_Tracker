@@ -10,11 +10,11 @@ using BugTrackerApp.Models;
 
 namespace BugTrackerApp.Controllers
 {
-    public class TicketsController : Controller
+    public class TicketController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public TicketsController(ApplicationDbContext context)
+        public TicketController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -49,6 +49,14 @@ namespace BugTrackerApp.Controllers
         public IActionResult Create()
         {
             ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name");
+            var projects = _context.Projects.Select(p => new SelectListItem
+            {
+                Value = p.Id.ToString(),
+                Text = p.Name
+            }).ToList();
+
+            ViewBag.ProjectId = projects;
+
             return View();
         }
 
@@ -57,7 +65,7 @@ namespace BugTrackerApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ProjectId,Title,Description,Developer,Priority,Status,Created")] Ticket ticket)
+        public async Task<IActionResult> Create([Bind("Id,ProjectId,Title,Description,Developer,Priority,Status,Created")]Ticket ticket)
         {
             if (ModelState.IsValid)
             {
@@ -66,6 +74,7 @@ namespace BugTrackerApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name", ticket.ProjectId);
+
             return View(ticket);
         }
 

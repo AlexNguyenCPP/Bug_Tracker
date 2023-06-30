@@ -29,18 +29,32 @@
             @Html.DisplayFor(model => model.CreatedDateTime)
         </dd>               
     </dl>
-    <hr />
-    <h4>Tickets</h4>
-    @if (Model.Tickets.Any())
-    {
-        <ul>
-            @foreach (var ticket in Model.Tickets)
-            {
-                <li>@ticket.Title - @ticket.Description</li>
-            }
-        </ul>
-    }
-    else
-    {
-        <p>No tickets found for this project.</p>
-    }
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<hr />
+<h4>Tickets</h4>
+
+<div>
+    <a asp-controller="Ticket" asp-action="Create" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> &nbsp; Create New Ticket        
+    </a>
+    <br /><br />
+</div>
+
+@if (Model.Tickets.Any())
+{
+    <ul>
+        @foreach (var ticket in Model.Tickets)
+        {
+            <li>@ticket.Title - @ticket.Description</li>
+        }
+    </ul>
+}
+else
+{
+    <p>No tickets found for this project.</p>
+}
