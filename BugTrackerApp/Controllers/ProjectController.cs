@@ -43,7 +43,7 @@ namespace BugTrackerApp.Controllers
                 // add the created project to the database
                 _db.Projects.Add(obj);
                 _db.SaveChanges();
-                TempData["success"] = "Category created successfully";
+                TempData["success"] = "Project created successfully";
                 return RedirectToAction("Index");// if returning to an action method inside a different controller, do this
             }                                    // return RedirectToAction("Index", "<controller-name");
 
@@ -88,7 +88,7 @@ namespace BugTrackerApp.Controllers
                 // update the created project in the database
                 _db.Projects.Update(obj);
                 _db.SaveChanges();
-                TempData["success"] = "Category updated successfully";
+                TempData["success"] = "Project updated successfully";
                 return RedirectToAction("Index");// if returning to an action method inside a different controller, do this
             }                                    // return RedirectToAction("Index", "<controller-name");
 
@@ -131,7 +131,7 @@ namespace BugTrackerApp.Controllers
             // delete the found project in the database
             _db.Projects.Remove(obj);
             _db.SaveChanges();
-            TempData["success"] = "Category deleted successfully";
+            TempData["success"] = "Project deleted successfully";
             return RedirectToAction("Index");// if returning to an action method inside a different controller, do this
                                                 // return RedirectToAction("Index", "<controller-name>")
         }

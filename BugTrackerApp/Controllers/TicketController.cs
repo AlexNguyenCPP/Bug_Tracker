@@ -71,6 +71,7 @@ namespace BugTrackerApp.Controllers
             {
                 _context.Add(ticket);
                 await _context.SaveChangesAsync();
+                TempData["success"] = "Ticket created successfully";
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name", ticket.ProjectId);
@@ -113,6 +114,7 @@ namespace BugTrackerApp.Controllers
                 {
                     _context.Update(ticket);
                     await _context.SaveChangesAsync();
+                    TempData["success"] = "Ticket updated successfully";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -166,6 +168,7 @@ namespace BugTrackerApp.Controllers
             }
             
             await _context.SaveChangesAsync();
+            TempData["success"] = "Ticket deleted successfully";
             return RedirectToAction(nameof(Index));
         }
 
