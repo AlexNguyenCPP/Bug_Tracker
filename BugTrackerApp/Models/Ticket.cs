@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BugTrackerApp.Models
@@ -25,6 +26,7 @@ namespace BugTrackerApp.Models
         // making it nullable prevents "Project field required" errors
         public Project? Project { get; set; } // Navigation property
 
+        [DisplayName("Created")]
         public DateTime Created { get; set; } = DateTime.Now;
     }
 
