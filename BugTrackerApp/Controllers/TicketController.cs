@@ -48,6 +48,7 @@ namespace BugTrackerApp.Controllers
         // GET: Tickets/Create
         public IActionResult Create()
         {
+            ViewBag.Referrer = Request.Headers["Referer"].ToString();
             ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name");
             var projects = _context.Projects.Select(p => new SelectListItem
             {
@@ -65,14 +66,23 @@ namespace BugTrackerApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ProjectId,Title,Description,Developer,Priority,Status,Created")]Ticket ticket)
+        public async Task<IActionResult> Create([Bind("Id,ProjectId,Title,Description,Developer,Priority,Status,Created")]Ticket ticket, string referrer)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(ticket);
                 await _context.SaveChangesAsync();
                 TempData["success"] = "Ticket created successfully";
-                return RedirectToAction(nameof(Index));
+                // Redirect to the referring URL if it exists; otherwise, redirect to the Index action
+                if (!string.IsNullOrEmpty(referrer))
+                {
+                    return Redirect(referrer);
+                }
+                else
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+              
             }
             ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name", ticket.ProjectId);
 
