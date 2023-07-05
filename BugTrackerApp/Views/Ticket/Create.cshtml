@@ -57,4 +57,10 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
+<!--client side validation using built in partial view-->
+@section Scripts
+    {
+    @{
+        <partial name="_ValidationScriptsPartial.cshtml" />
+    }
+}
