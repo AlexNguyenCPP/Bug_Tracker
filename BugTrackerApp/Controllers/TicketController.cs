@@ -158,7 +158,8 @@ namespace BugTrackerApp.Controllers
                 return NotFound();
             }
 
-            var ticket = await _context.Ticket
+			ViewBag.Referrer = Request.Headers["Referer"].ToString();
+			var ticket = await _context.Ticket
                 .Include(t => t.Project)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (ticket == null)
@@ -172,7 +173,7 @@ namespace BugTrackerApp.Controllers
         // POST: Tickets/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, string referrer)
         {
             if (_context.Ticket == null)
             {
@@ -186,7 +187,14 @@ namespace BugTrackerApp.Controllers
             
             await _context.SaveChangesAsync();
             TempData["success"] = "Ticket deleted successfully";
-            return RedirectToAction(nameof(Index));
+
+			if (!string.IsNullOrEmpty(referrer))
+			{
+				return Redirect(referrer);
+			}
+
+            else
+			return RedirectToAction(nameof(Index));
         }
 
         private bool TicketExists(int id)
