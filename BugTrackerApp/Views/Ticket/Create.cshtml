@@ -13,7 +13,8 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create" method="post">
-            <input type="hidden" name="referrer" value="@ViewBag.Referrer" />  
+            <input type="hidden" name="referrer" value="@ViewBag.Referrer" />  @*Receive the referer stored in 'Referrer' variable from the controller.
+                                                                               The data is now bound to the form and will be sent to the POST method in the Ticket controller *@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="ProjectId" class="control-label"></label>

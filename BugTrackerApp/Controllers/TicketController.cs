@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BugTrackerApp.Data;
 using BugTrackerApp.Models;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Collections;
 
 namespace BugTrackerApp.Controllers
 {
@@ -48,7 +50,12 @@ namespace BugTrackerApp.Controllers
         // GET: Tickets/Create
         public IActionResult Create()
         {
-            ViewBag.Referrer = Request.Headers["Referer"].ToString();
+            // The "Referer" header is a standard HTTP header that is automatically sent by browsers to
+            // indicate the URL of the page the user was on before making the current request.
+            // This Referrer URL is then stored in the ViewBag under the key "Referrer" so that it can be passed to the view.
+            // ViewBag is a dynamic property in ASP.NET MVC that's used to pass temporary data from the controller to the view.
+            // It's a wrapper around ViewData that provides a dynamic property for adding to the view data dictionary.
+			ViewBag.Referrer = Request.Headers["Referer"].ToString();
             ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name");
             var projects = _context.Projects.Select(p => new SelectListItem
             {

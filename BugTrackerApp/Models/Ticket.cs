@@ -6,7 +6,13 @@ namespace BugTrackerApp.Models
 {
     public class Ticket
     {
-        [Key]
+        // ensure non-null Comments property without having to make the property nullable, which risks other exception errors
+		public Ticket()
+		{
+			Comments = new List<Comment>();
+		}
+
+		[Key]
         public int Id { get; set; }
 
         public int ProjectId { get; set; } // Foreign key property
@@ -28,6 +34,7 @@ namespace BugTrackerApp.Models
 
         [DisplayName("Created")]
         public DateTime Created { get; set; } = DateTime.Now;
+        public ICollection<Comment> Comments { get; set; }
     }
 
 }
