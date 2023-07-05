@@ -97,7 +97,8 @@ namespace BugTrackerApp.Controllers
                 return NotFound();
             }
 
-            var ticket = await _context.Ticket.FindAsync(id);
+			ViewBag.Referrer = Request.Headers["Referer"].ToString();
+			var ticket = await _context.Ticket.FindAsync(id);
             if (ticket == null)
             {
                 return NotFound();
@@ -111,7 +112,7 @@ namespace BugTrackerApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ProjectId,Title,Description,Developer,Priority,Status,Created")] Ticket ticket)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ProjectId,Title,Description,Developer,Priority,Status,Created")] Ticket ticket, string referrer)
         {
             if (id != ticket.Id)
             {
@@ -137,7 +138,13 @@ namespace BugTrackerApp.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+				if (!string.IsNullOrEmpty(referrer))
+				{
+					return Redirect(referrer);
+				}
+
+                else
+				return RedirectToAction(nameof(Index));
             }
             ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name", ticket.ProjectId);
             return View(ticket);
