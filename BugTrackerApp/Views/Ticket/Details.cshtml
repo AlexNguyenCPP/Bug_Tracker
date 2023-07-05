@@ -58,3 +58,20 @@
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+
+<h2>Comments</h2>
+@foreach (var comment in Model.Comments)
+{
+    <p>@comment.User.UserName: @comment.Message</p>
+}
+
+<h2>Add a Comment</h2>
+<form asp-action="Create" asp-controller="Comment" method="post">
+    <input type="hidden" value="@Model.Id" name="TicketId" />
+    <div class="form-group">
+        <label for="commentText">Comment:</label>
+        <textarea class="form-control" id="commentText" name="Text" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+

@@ -37,6 +37,8 @@ namespace BugTrackerApp.Controllers
             }
 
             var ticket = await _context.Ticket
+                .Include(t => t.Comments)
+                    .ThenInclude(t => t.User)
                 .Include(t => t.Project)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (ticket == null)
