@@ -15,6 +15,7 @@ namespace BugTrackerApp.Models
 		[Key]
         public int Id { get; set; }
 
+        [DisplayName("Project")]
         public int ProjectId { get; set; } // Foreign key property
 
         [Required]

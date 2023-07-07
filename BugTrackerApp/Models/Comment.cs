@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
 namespace BugTrackerApp.Models
@@ -8,6 +9,7 @@ namespace BugTrackerApp.Models
         [Key]
         public int Id { get; set; }
         public string Message { get; set; }
+        [DisplayName("Ticket")]
         public int TicketId { get; set; }                       // foreign key to Ticket Model
         public Ticket Ticket { get; set; }                      // navigational property to Ticket Model
         public DateTime Created { get; set; } = DateTime.Now;
