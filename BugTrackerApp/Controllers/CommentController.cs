@@ -138,6 +138,7 @@ namespace BugTrackerApp.Controllers
                 return NotFound();
             }
 
+            ViewBag.Referrer = Request.Headers["Referer"].ToString();
             var comment = await _context.Comment
                 .Include(c => c.Ticket)
                 .Include(c => c.User)
@@ -153,7 +154,7 @@ namespace BugTrackerApp.Controllers
         // POST: Comment/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, string referrer)
         {
             if (_context.Comment == null)
             {
@@ -166,7 +167,13 @@ namespace BugTrackerApp.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            if (!string.IsNullOrEmpty(referrer))
+            {
+                return Redirect(referrer);
+            }
+
+            else
+            return RedirectToAction("Index", "Home");
         }
 
         private bool CommentExists(int id)
