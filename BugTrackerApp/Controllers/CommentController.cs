@@ -62,7 +62,6 @@ namespace BugTrackerApp.Controllers
                 TicketId = TicketId,
                 Message = Text,
                 UserId = _userManager.GetUserId(User),
-                //Username = User.Identity.Name
             };
 
             _context.Add(comment);
@@ -101,6 +100,10 @@ namespace BugTrackerApp.Controllers
             {
                 return NotFound();
             }
+
+            // remove these properties from the modelstate validation because they aren't being passed from the edit view
+            ModelState.Remove("User");
+            ModelState.Remove("Ticket");
 
             if (ModelState.IsValid)
             {

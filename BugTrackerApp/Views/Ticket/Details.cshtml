@@ -60,10 +60,44 @@
 </div>
 
 <h2>Comments</h2>
-@foreach (var comment in Model.Comments)
-{
-    <p>@comment.User.UserName: @comment.Message</p>
-}
+<table class="table table-bordered table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                Commenter
+            </th>
+            <th>
+                Message
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var comment in Model.Comments)
+        {
+            <tr>
+                <td width="50%">
+                    @comment.User.Email
+                </td>
+                <td width="30%">
+                    @comment.Message
+                </td>
+                <td width="30%">
+                    @comment.Created
+                </td>
+                <td>
+                    <div class="w-75 btn-group" role="group">
+                        <a asp-controller="Comment" asp-action="Edit" asp-route-id="@comment.Id"
+                           class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i>Edit</a>
+                        <a asp-controller="Comment" asp-action="Delete" asp-route-id="@comment.Id"
+                           class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
 
 <h2>Add a Comment</h2>
 <form asp-action="Create" asp-controller="Comment" method="post">

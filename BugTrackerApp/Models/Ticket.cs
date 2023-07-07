@@ -30,7 +30,7 @@ namespace BugTrackerApp.Models
         // ? required to make the property nullable. By default, certain types in .net6 are non-nullable 
         // The Project property will be automatically linked to the ProjectID foreign key later on
         // making it nullable prevents "Project field required" errors
-        public Project? Project { get; set; } // Navigation property
+        public Project Project { get; set; } // Navigation property
 
         [DisplayName("Created")]
         public DateTime Created { get; set; } = DateTime.Now;

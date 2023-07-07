@@ -77,6 +77,9 @@ namespace BugTrackerApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ProjectId,Title,Description,Developer,Priority,Status,Created")]Ticket ticket, string referrer)
         {
+            // remove Project property from ModelState validation check since it isn't being passed from the view
+            ModelState.Remove("Project");
+
             if (ModelState.IsValid)
             {
                 _context.Add(ticket);
@@ -127,6 +130,9 @@ namespace BugTrackerApp.Controllers
             {
                 return NotFound();
             }
+
+            // remove project from the model state validation check because it isn't passed from the view
+            ModelState.Remove("Project");
 
             if (ModelState.IsValid)
             {
