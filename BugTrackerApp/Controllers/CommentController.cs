@@ -79,6 +79,7 @@ namespace BugTrackerApp.Controllers
                 return NotFound();
             }
 
+            ViewBag.Referrer = Request.Headers["Referer"].ToString(); 
             var comment = await _context.Comment.FindAsync(id);
             if (comment == null)
             {
@@ -94,7 +95,7 @@ namespace BugTrackerApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Message,TicketId,Created,UserId")] Comment comment)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Message,TicketId,Created,UserId")] Comment comment, string referrer)
         {
             if (id != comment.Id)
             {
@@ -123,7 +124,13 @@ namespace BugTrackerApp.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                if (!String.IsNullOrEmpty(referrer)) 
+                {
+                    return Redirect(referrer);
+                }
+
+                else
+                return RedirectToAction("Home", "Index");
             }
             ViewData["TicketId"] = new SelectList(_context.Ticket, "Id", "Title", comment.TicketId);
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", comment.UserId);
