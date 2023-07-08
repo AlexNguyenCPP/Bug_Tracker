@@ -54,11 +54,14 @@
         </dd>
     </dl>
 </div>
+
+@*javascript:history.back() method is simpler than referer method but has less control and less stability*@
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a href="@ViewBag.Referrer">Back to List</a>
 </div>
 
+@*Comment Section*@
 <h2>Comments</h2>
 <table class="table table-bordered table-striped" style="width:100%">
     <thead>

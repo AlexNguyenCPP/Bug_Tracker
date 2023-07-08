@@ -52,8 +52,13 @@
     </div>
 </div>
 
+@*This method of returning back to the previous URL can be used instead of the referrer method, but is less stable and offers less control*@
+@*<div>
+    <a href="javascript:history.back()">Back to List</a>
+</div>*@
+
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a href="@ViewBag.Referrer">Back To List</a>
 </div>
 
 <!--client side validation using built in partial view-->

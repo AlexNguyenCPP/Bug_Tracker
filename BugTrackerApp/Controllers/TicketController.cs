@@ -36,6 +36,8 @@ namespace BugTrackerApp.Controllers
                 return NotFound();
             }
 
+            ViewBag.Referrer = Request.Headers["Referer"].ToString();
+
             var ticket = await _context.Ticket
                 .Include(t => t.Comments)
                     .ThenInclude(t => t.User)
