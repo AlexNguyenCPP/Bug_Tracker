@@ -34,6 +34,14 @@ namespace BugTrackerApp.Models
             TrainingDocumentRequests
         }
 
+        public enum PriorityType
+        {
+            None,
+            Low,
+            Medium,
+            High
+        }
+
 		[Key]
         public int Id { get; set; }
 
@@ -45,7 +53,7 @@ namespace BugTrackerApp.Models
 
         public string Description { get; set; }
         public string Developer { get; set; }
-        public string Priority { get; set; }
+        public PriorityType Priority { get; set; }
         public StatusType Status { get; set; }
         public TicketType Type { get; set; }
 
