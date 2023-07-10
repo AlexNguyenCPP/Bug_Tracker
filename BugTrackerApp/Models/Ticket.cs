@@ -12,6 +12,7 @@ namespace BugTrackerApp.Models
 			Comments = new List<Comment>();
 		}
 
+        // types of statuses for the Ticket
         public enum StatusType
         {
             New,
@@ -19,6 +20,18 @@ namespace BugTrackerApp.Models
             InProgress,
             Resolved,
             AdditionalInfoRequired
+        }
+
+       // A better method that doesn't repeat code is to use the [Description] tag to name the enum fields what you want them to be called,
+       // then in the views, access those fields with the use of a helper method that obtains the description instead of the original name.
+       // We didn't do it here because we don't expect to change the Ticket types ever, but if you were to change the types, you'd have to
+       // change it in the views as well as the enum
+        public enum TicketType
+        {
+            BugsErrors,
+            FeatureRequests,
+            OtherComments,
+            TrainingDocumentRequests
         }
 
 		[Key]
@@ -34,6 +47,7 @@ namespace BugTrackerApp.Models
         public string Developer { get; set; }
         public string Priority { get; set; }
         public StatusType Status { get; set; }
+        public TicketType Type { get; set; }
 
         [ForeignKey("ProjectId")] // Foreign key for 'Project'
 

@@ -56,6 +56,17 @@
                 "Please select a status",
                 new { @class = "form-control" })
             </div>
+
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                <select asp-for="Type" class="form-control">
+                    <option value="">Please select a ticket type</option>
+                    <option value="BugsErrors">Bugs/Errors</option>
+                    <option value="FeatureRequests">Feature Requests</option>
+                    <option value="OtherComments">Other Comments</option>
+                    <option value="TrainingDocumentRequests">Training/Document Requests</option>
+                </select>
+            </div>
             <br />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
