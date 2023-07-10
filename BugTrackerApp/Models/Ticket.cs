@@ -12,6 +12,15 @@ namespace BugTrackerApp.Models
 			Comments = new List<Comment>();
 		}
 
+        public enum StatusType
+        {
+            New,
+            Open,
+            InProgress,
+            Resolved,
+            AdditionalInfoRequired
+        }
+
 		[Key]
         public int Id { get; set; }
 
@@ -24,7 +33,7 @@ namespace BugTrackerApp.Models
         public string Description { get; set; }
         public string Developer { get; set; }
         public string Priority { get; set; }
-        public string Status { get; set; }
+        public StatusType Status { get; set; }
 
         [ForeignKey("ProjectId")] // Foreign key for 'Project'
 

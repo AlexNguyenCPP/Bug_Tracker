@@ -42,9 +42,20 @@
                 <span asp-validation-for="Priority" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
+                @*<label asp-for="Status" class="control-label"></label>
                 <input asp-for="Status" class="form-control" />
-                <span asp-validation-for="Status" class="text-danger"></span>
+                <span asp-validation-for="Status" class="text-danger"></span>*@
+                <label asp-for="Status" class="control-label"></label>
+                @Html.DropDownListFor(model => model.Status,
+                Enum.GetValues(typeof(BugTrackerApp.Models.Ticket.StatusType))
+                .Cast<BugTrackerApp.Models.Ticket.StatusType>()
+                .Select(v => new SelectListItem
+                {
+                Text = v.ToString(),
+                Value = ((int)v).ToString()
+                }),
+                "Please select a status",
+                new { @class = "form-control" })
             </div>
             <br />
             <div class="form-group">
