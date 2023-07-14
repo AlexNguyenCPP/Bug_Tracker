@@ -61,6 +61,20 @@
     <a href="@ViewBag.Referrer">Back to List</a>
 </div>
 
+@*Attachments Section*@
+<h3>Attachments</h3>
+<ul>
+    @foreach (var attachment in Model.Attachments)
+    {
+        <li>
+            @attachment.FileName
+            <!-- Add a download link for the file -->
+            <a href="@Url.Action("Download", "Attachment", new { id = attachment.Id })">Download</a>
+        </li>
+    }
+</ul>
+
+
 @*Comment Section*@
 <h2>Comments</h2>
 <table class="table table-bordered table-striped" style="width:100%">

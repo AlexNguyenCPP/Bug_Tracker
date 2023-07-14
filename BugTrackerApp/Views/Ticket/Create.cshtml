@@ -12,7 +12,7 @@
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" method="post">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
             <input type="hidden" name="referrer" value="@ViewBag.Referrer" />  @*Receive the referer stored in 'Referrer' variable from the controller.
                                                                                The data is now bound to the form and will be sent to the POST method in the Ticket controller *@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -69,6 +69,11 @@
                     <option value="OtherComments">Other Comments</option>
                     <option value="TrainingDocumentRequests">Training/Document Requests</option>
                 </select>
+            </div>
+            <br />
+            <div class="form-group">
+                <label for="Attachment">Attachment</label>
+                <input type="file" name="Attachment" id="Attachment" />
             </div>
             <br />
             <div class="form-group">

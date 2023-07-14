@@ -6,12 +6,6 @@ namespace BugTrackerApp.Models
 {
     public class Ticket
     {
-        // ensure non-null Comments property without having to make the property nullable, which risks other exception errors
-		public Ticket()
-		{
-			Comments = new List<Comment>();
-		}
-
         // types of statuses for the Ticket
         public enum StatusType
         {
@@ -66,7 +60,8 @@ namespace BugTrackerApp.Models
 
         [DisplayName("Created")]
         public DateTime Created { get; set; } = DateTime.Now;
-        public ICollection<Comment> Comments { get; set; }
+        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
+        public ICollection<Attachment> Attachments { get; set; } = new List<Attachment>();
     }
 
 }

@@ -39,6 +39,7 @@ namespace BugTrackerApp.Controllers
             ViewBag.Referrer = Request.Headers["Referer"].ToString();
 
             var ticket = await _context.Ticket
+                .Include(t => t.Attachments)
                 .Include(t => t.Comments)
                     .ThenInclude(t => t.User)
                 .Include(t => t.Project)
@@ -77,13 +78,29 @@ namespace BugTrackerApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ProjectId,Title,Description,Developer,Priority,Status,Created")]Ticket ticket, string referrer)
+        public async Task<IActionResult> Create([Bind("Id,ProjectId,Title,Description,Developer,Priority,Status,Created")]Ticket ticket, IFormFile attachment, string referrer)
         {
             // remove Project property from ModelState validation check since it isn't being passed from the view
             ModelState.Remove("Project");
 
             if (ModelState.IsValid)
             {
+                if (attachment != null && attachment.Length > 0)
+                {
+                    var newAttachment = new Attachment
+                    {
+                        FileName = Path.GetFileName(attachment.FileName),
+                        ContentType = attachment.ContentType,
+                        Ticket = ticket,
+                    };
+
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await attachment.CopyToAsync(memoryStream);
+                        newAttachment.FileData = memoryStream.ToArray();
+                    }
+                    _context.Attachments.Add(newAttachment);
+                }
                 _context.Add(ticket);
                 await _context.SaveChangesAsync();
                 TempData["success"] = "Ticket created successfully";
