@@ -78,6 +78,24 @@
     }
 </ul>
 
+@* 
+<h3>Attachments</h3>
+<ul>
+    @foreach (var attachment in Model.Attachments)
+    {
+        <li>
+            @attachment.FileName
+            <!-- Add a download link for the file -->
+            <a asp-controller="Attachment" asp-action="Download" asp-route-id="@attachment.Id">Download</a>
+            <!-- Add an edit link for the file -->
+            <a asp-controller="Attachment" asp-action="Edit" asp-route-id="@attachment.Id">Edit</a>
+            <!-- Add a delete link for the file -->
+            <a asp-controller="Attachment" asp-action="Delete" asp-route-id="@attachment.Id">Delete</a>
+        </li>
+    }
+</ul>*@
+
+
 
 @*Comment Section*@
 <h2>Comments</h2>
