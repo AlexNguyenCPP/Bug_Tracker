@@ -70,6 +70,10 @@
             @attachment.FileName
             <!-- Add a download link for the file -->
             <a href="@Url.Action("Download", "Attachment", new { id = attachment.Id })">Download</a>
+            <!-- Add an edit link for the file -->
+            <a href="@Url.Action("Edit", "Attachment", new { id = attachment.Id })">Edit</a>
+            <!-- Add a delete link for the file -->
+            <a href="@Url.Action("Delete", "Attachment", new { id = attachment.Id })">Delete</a>
         </li>
     }
 </ul>
