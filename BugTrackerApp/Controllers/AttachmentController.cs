@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BugTrackerApp.Data;
 using BugTrackerApp.Models;
+using Microsoft.AspNetCore.Http.Headers;
+using System.Net.Sockets;
 
 namespace BugTrackerApp.Controllers
 {
@@ -46,8 +48,9 @@ namespace BugTrackerApp.Controllers
         }
 
         // GET: Attachment/Create
-        public IActionResult Create()
+        public IActionResult Create(int id)
         {
+            ViewBag.Referrer = Request.Headers["Referer"].ToString();
             ViewData["TicketId"] = new SelectList(_context.Ticket, "Id", "Title");
             return View();
         }
@@ -57,21 +60,41 @@ namespace BugTrackerApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,TicketId,FileName,FileData,ContentType")] Attachment attachment)
+        public async Task<IActionResult> Create(IFormFile attachment, int id, string referrer)
         {
-            if (ModelState.IsValid)
+            if (attachment != null && attachment.Length > 0)
             {
-                _context.Add(attachment);
+                var newAttachment = new Attachment
+                {
+                    TicketId = id,
+                    FileName = attachment.FileName,
+                    ContentType = attachment.ContentType
+                };
+
+                using (var dataStream = new MemoryStream())
+                {
+                    await attachment.CopyToAsync(dataStream);
+                    newAttachment.FileData = dataStream.ToArray();
+                }
+                _context.Add(newAttachment);
                 await _context.SaveChangesAsync();
+                
+                if (!String.IsNullOrEmpty(referrer))
+                {
+                    return Redirect(referrer);
+                }
+
                 return RedirectToAction(nameof(Index));
+
             }
-            ViewData["TicketId"] = new SelectList(_context.Ticket, "Id", "Title", attachment.TicketId);
+         
             return View(attachment);
         }
 
         // GET: Attachment/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            ViewBag.Referrer = Request.Headers["Referer"].ToString(); 
             if (id == null || _context.Attachments == null)
             {
                 return NotFound();
@@ -91,7 +114,7 @@ namespace BugTrackerApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,TicketId,FileName,FileData,ContentType")] Attachment attachment)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,TicketId,FileName,FileData,ContentType")] Attachment attachment, string referrer)
         {
             if (id != attachment.Id)
             {
@@ -116,6 +139,12 @@ namespace BugTrackerApp.Controllers
                         throw;
                     }
                 }
+
+                if (!string.IsNullOrEmpty(referrer))
+                {
+                    return Redirect(referrer);
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["TicketId"] = new SelectList(_context.Ticket, "Id", "Title", attachment.TicketId);
@@ -125,6 +154,7 @@ namespace BugTrackerApp.Controllers
         // GET: Attachment/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            ViewBag.Referrer = Request.Headers["Referer"].ToString();
             if (id == null || _context.Attachments == null)
             {
                 return NotFound();
@@ -144,7 +174,7 @@ namespace BugTrackerApp.Controllers
         // POST: Attachment/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, string referrer)
         {
             if (_context.Attachments == null)
             {
@@ -157,6 +187,11 @@ namespace BugTrackerApp.Controllers
             }
             
             await _context.SaveChangesAsync();
+
+            if (!string.IsNullOrEmpty(referrer))
+            {
+                return Redirect(referrer);
+            }
             return RedirectToAction(nameof(Index));
         }
 

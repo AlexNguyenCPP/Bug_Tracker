@@ -63,6 +63,18 @@
 
 @*Attachments Section*@
 <h3>Attachments</h3>
+
+@*add attachment*@
+<div>
+    <a asp-controller="Attachment" asp-action="Create" asp-route-id="@Model.Id" class="btn btn-secondary">
+        <i class="bi bi-plus-circle"></i> &nbsp; Add New Attachment
+    </a>
+    <br />
+</div>
+
+
+<br />
+
 <ul>
     @foreach (var attachment in Model.Attachments)
     {
@@ -70,8 +82,6 @@
             @attachment.FileName
             <!-- Add a download link for the file -->
             <a href="@Url.Action("Download", "Attachment", new { id = attachment.Id })">Download</a>
-            <!-- Add an edit link for the file -->
-            <a href="@Url.Action("Edit", "Attachment", new { id = attachment.Id })">Edit</a>
             <!-- Add a delete link for the file -->
             <a href="@Url.Action("Delete", "Attachment", new { id = attachment.Id })">Delete</a>
         </li>
