@@ -167,7 +167,7 @@ namespace BugTrackerApp.Controllers
             {
                 return NotFound();
             }
-
+           
             return View(attachment);
         }
 
@@ -193,6 +193,7 @@ namespace BugTrackerApp.Controllers
                 return Redirect(referrer);
             }
             return RedirectToAction(nameof(Index));
+
         }
 
         private bool AttachmentExists(int id)

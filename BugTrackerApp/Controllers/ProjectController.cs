@@ -137,7 +137,7 @@ namespace BugTrackerApp.Controllers
         }
 
         // view project details
-        public IActionResult Details(int id)
+        public IActionResult Details(int id, string origin)
         {
             // Include is necessary here because only simple types like ints, strings, etc would be returned otherwise
             var project = _db.Projects.Include(p => p.Tickets).SingleOrDefault(p => p.Id == id);
@@ -146,6 +146,8 @@ namespace BugTrackerApp.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.Origin = origin;
             return View(project);
         }
 

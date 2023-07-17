@@ -58,7 +58,7 @@
 @*javascript:history.back() method is simpler than referer method but has less control and less stability*@
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a href="@ViewBag.Referrer">Back to List</a>
+    <a href="@ViewBag.Origin">Back to List</a>
 </div>
 
 @*Attachments Section*@
@@ -66,7 +66,7 @@
 
 @*add attachment*@
 <div>
-    <a asp-controller="Attachment" asp-action="Create" asp-route-id="@Model.Id" class="btn btn-secondary">
+    <a asp-controller="Attachment" asp-action="Create" asp-route-id="@Model.Id" asp-route-origin="@ViewBag.Origin class="btn btn-secondary">
         <i class="bi bi-plus-circle"></i> &nbsp; Add New Attachment
     </a>
     <br />
@@ -83,7 +83,7 @@
             <!-- Add a download link for the file -->
             <a href="@Url.Action("Download", "Attachment", new { id = attachment.Id })">Download</a>
             <!-- Add a delete link for the file -->
-            <a href="@Url.Action("Delete", "Attachment", new { id = attachment.Id })">Delete</a>
+            <a href="@Url.Action("Delete", "Attachment", new { id = attachment.Id, origin = ViewBag.Origin })">Delete</a>
         </li>
     }
 </ul>
