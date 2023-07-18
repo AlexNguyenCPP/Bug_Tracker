@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BugTrackerApp.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Manager")]
     public class ProjectController : Controller
     {
         // retrieve project list

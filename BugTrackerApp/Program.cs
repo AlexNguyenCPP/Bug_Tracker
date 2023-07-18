@@ -67,7 +67,7 @@ using (var scope = app.Services.CreateScope())
     string email = "admin@admin.com";
     string password = "Sharks714!";
 
-    if(await userManager.FindByEmailAsync(email) == null)
+    if (await userManager.FindByEmailAsync(email) == null)
     {
         var user = new IdentityUser();
         user.UserName = email;

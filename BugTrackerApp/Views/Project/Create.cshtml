@@ -4,7 +4,7 @@
 @inject UserManager<IdentityUser> UserManager
 
 
-@if (User.IsInRole("Admin"))
+@if (User.IsInRole("Admin") || User.IsInRole("Manager"))
 {
     <form method="post">
         <div class="border p-3 mt-4">

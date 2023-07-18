@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace BugTrackerApp.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Manager")]
     public class TicketController : Controller
     {
         private readonly ApplicationDbContext _context;
