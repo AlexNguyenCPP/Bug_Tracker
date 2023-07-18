@@ -1,34 +1,43 @@
 ﻿@model Project
 
-<form method="post" asp-action="Edit">
-    <div class="border p-3 mt-4">
-        <div class="row pb-2">
-            <h2 class="text-primary">Edit Project</h2>
-            <hr />
-        </div>
-        <!--<div asp-validation-summary="All"></div>   -->                      <!--display all error messages-->
-        <div class="mb-3">
-            <label asp-for="Name"></label>
-            <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>         <!--input validation-->
-        </div>
-        <div class="mb-3">
-            <label asp-for="Description"></label>
-            <input asp-for="Description" class="form-control" />
-            <span asp-validation-for="Description" class="text-danger"></span>  <!--input validation-->
-        </div>
-        <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
-        <a asp-controller="Project" asp-action="Index" class="btn btn-secondary" style="width:150px">
-            Back to list
-        </a>
-    </div>
-</form>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
-<!--client side validation using built in partial view-->
-@section Scripts
+
+@if (User.IsInRole("Admin"))
 {
-    @{
-        <partial name="_ValidationScriptsPartial.cshtml" />
-    }
-}
 
+    <form method="post" asp-action="Edit">
+        <div class="border p-3 mt-4">
+            <div class="row pb-2">
+                <h2 class="text-primary">Edit Project</h2>
+                <hr />
+            </div>
+            <!--<div asp-validation-summary="All"></div>   -->                      <!--display all error messages-->
+            <div class="mb-3">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>         <!--input validation-->
+            </div>
+            <div class="mb-3">
+                <label asp-for="Description"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>  <!--input validation-->
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
+            <a asp-controller="Project" asp-action="Index" class="btn btn-secondary" style="width:150px">
+                Back to list
+            </a>
+        </div>
+    </form>
+
+    <!--client side validation using built in partial view-->
+    @section Scripts
+    {
+        @{
+            <partial name="_ValidationScriptsPartial.cshtml" />
+        }
+    }
+
+}

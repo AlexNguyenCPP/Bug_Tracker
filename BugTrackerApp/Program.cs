@@ -48,7 +48,7 @@ using(var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-    var roles = new[] { "Admin", "Manager", "Developer" };
+    var roles = new[] { "Admin", "Manager", "Developer", "Member" };
 
     foreach (var role in roles)
     {
@@ -58,6 +58,8 @@ using(var scope = app.Services.CreateScope())
     }
 }
 
+
+// make sure there is always an admin account regardless if accessing the project from a new machine
 using (var scope = app.Services.CreateScope())
 {
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();

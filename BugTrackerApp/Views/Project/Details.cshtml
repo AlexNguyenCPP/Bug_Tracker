@@ -1,65 +1,75 @@
 ﻿@model BugTrackerApp.Models.Project
 
-@{
-    ViewData["Title"] = "Details";
-}
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
-<h1>Details</h1>
+@if (User.IsInRole("Admin"))
+{
 
-<div>
-    <h4>Project</h4>
+    {
+        ViewData["Title"] = "Details";
+    }
+
+
+    <h1>Details</h1>
+
+    <div>
+        <h4>Project</h4>
+        <hr />
+        <dl class="row">
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.CreatedDateTime)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.CreatedDateTime)
+            </dd>               
+        </dl>
+    </div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>
+
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedDateTime)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedDateTime)
-        </dd>               
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+    <h4>Tickets</h4>
 
-<hr />
-<h4>Tickets</h4>
+    <div>
+        <a asp-controller="Ticket" asp-action="Create" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> &nbsp; Create New Ticket        
+        </a>
+        <br /><br />
+    </div>
 
-<div>
-    <a asp-controller="Ticket" asp-action="Create" class="btn btn-primary">
-        <i class="bi bi-plus-circle"></i> &nbsp; Create New Ticket        
-    </a>
-    <br /><br />
-</div>
+    @if (Model.Tickets.Any())
+    {
+        <ul>
+            @foreach (var ticket in Model.Tickets)
+            {
+                <li>@ticket.Title - @ticket.Description</li>
+                <td>
+                    <a asp-controller="Ticket" asp-action="Edit" asp-route-id="@ticket.Id">Edit</a> |
+                    <a asp-action="Details" asp-controller="Ticket" asp-route-id="@ticket.Id" asp-route-origin="@Url.Action("Details", "Project")">Details</a>|
+                    <a asp-controller="Ticket" asp-action="Delete" asp-route-id="@ticket.Id">Delete</a>
+                </td>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No tickets found for this project.</p>
+    }
 
-@if (Model.Tickets.Any())
-{
-    <ul>
-        @foreach (var ticket in Model.Tickets)
-        {
-            <li>@ticket.Title - @ticket.Description</li>
-            <td>
-                <a asp-controller="Ticket" asp-action="Edit" asp-route-id="@ticket.Id">Edit</a> |
-                <a asp-action="Details" asp-controller="Ticket" asp-route-id="@ticket.Id" asp-route-origin="@Url.Action("Details", "Project")">Details</a>|
-                <a asp-controller="Ticket" asp-action="Delete" asp-route-id="@ticket.Id">Delete</a>
-            </td>
-        }
-    </ul>
-}
-else
-{
-    <p>No tickets found for this project.</p>
 }

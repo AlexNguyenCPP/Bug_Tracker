@@ -9,9 +9,11 @@ using BugTrackerApp.Data;
 using BugTrackerApp.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Collections;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BugTrackerApp.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class TicketController : Controller
     {
         private readonly ApplicationDbContext _context;

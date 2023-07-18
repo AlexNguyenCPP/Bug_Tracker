@@ -1,33 +1,41 @@
 ﻿@model BugTrackerApp.Models.Attachment
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
-@{
-    ViewData["Title"] = "Create";
-}
 
-<h1>Create</h1>
+@if (User.IsInRole("Admin"))
+{
+        {
+            ViewData["Title"] = "Create";
+        }
 
-<h4>Attachment</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="referrer" value="@ViewBag.Referrer" />
-            <input asp-for="Id" hidden />
-            <div class="form-group">
-                <label for="Attachment">Attachment</label>
-                <input type="file" name="Attachment" id="Attachment" />
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Add" class="btn btn-primary" />
-            </div>
-        </form>
+    <h1>Create</h1>
+
+    <h4>Attachment</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="referrer" value="@ViewBag.Referrer" />
+                <input asp-for="Id" hidden />
+                <div class="form-group">
+                    <label for="Attachment">Attachment</label>
+                    <input type="file" name="Attachment" id="Attachment" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Add" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a href="@ViewBag.Referrer">Back to List</a>
-</div>
+    <div>
+        <a href="@ViewBag.Referrer">Back to List</a>
+    </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
+
 }

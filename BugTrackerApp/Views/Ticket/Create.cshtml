@@ -1,96 +1,107 @@
 ﻿@model BugTrackerApp.Models.Ticket
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
-@{
+
+@if (User.IsInRole("Admin"))
+
+{
+
+{
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
 
-<h4>Ticket</h4>
-<hr />
+    <h1>Create</h1>
+
+    <h4>Ticket</h4>
+    <hr />
 
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="referrer" value="@ViewBag.Referrer" />  @*Receive the referer stored in 'Referrer' variable from the controller.
-                                                                               The data is now bound to the form and will be sent to the POST method in the Ticket controller *@
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ProjectId" class="control-label"></label>
-                <select asp-for="ProjectId" class ="form-control" asp-items="ViewBag.ProjectId"></select>
-            </div>
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Developer" class="control-label"></label>
-                <input asp-for="Developer" class="form-control" />
-                <span asp-validation-for="Developer" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Priority" class="control-label"></label>
-                @Html.DropDownListFor(model => model.Priority,
-                Enum.GetValues(typeof(BugTrackerApp.Models.Ticket.PriorityType))
-                .Cast<BugTrackerApp.Models.Ticket.PriorityType>()
-                .Select(v => new SelectListItem
-                {
-                Text = v.ToString(),
-                Value = ((int)v).ToString()
-                }),
-                "Please select a priority",
-                new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <select asp-for="Status" class="form-control">
-                    <option value="">Please select a status type</option>
-                    <option value="New">New</option>
-                    <option value="Open">Open</option>
-                    <option value="InProgress">In Progress</option>
-                    <option value="Resolved">Resolved</option>
-                    <option value="AdditionalInfoRequired">Additional Info Required</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Type" class="control-label"></label>
-                <select asp-for="Type" class="form-control">
-                    <option value="">Please select a ticket type</option>
-                    <option value="BugsErrors">Bugs/Errors</option>
-                    <option value="FeatureRequests">Feature Requests</option>
-                    <option value="OtherComments">Other Comments</option>
-                    <option value="TrainingDocumentRequests">Training/Document Requests</option>
-                </select>
-            </div>
-            <br />
-            <div class="form-group">
-                <label for="Attachment">Attachment</label>
-                <input type="file" name="Attachment" id="Attachment" />
-            </div>
-            <br />
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="referrer" value="@ViewBag.Referrer" />  @*Receive the referer stored in 'Referrer' variable from the controller.
+                                                                                   The data is now bound to the form and will be sent to the POST method in the Ticket controller *@
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="ProjectId" class="control-label"></label>
+                    <select asp-for="ProjectId" class ="form-control" asp-items="ViewBag.ProjectId"></select>
+                </div>
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Title" class="control-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Developer" class="control-label"></label>
+                    <input asp-for="Developer" class="form-control" />
+                    <span asp-validation-for="Developer" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Priority" class="control-label"></label>
+                    @Html.DropDownListFor(model => model.Priority,
+                    Enum.GetValues(typeof(BugTrackerApp.Models.Ticket.PriorityType))
+                    .Cast<BugTrackerApp.Models.Ticket.PriorityType>()
+                    .Select(v => new SelectListItem
+                    {
+                    Text = v.ToString(),
+                    Value = ((int)v).ToString()
+                    }),
+                    "Please select a priority",
+                    new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label asp-for="Status" class="control-label"></label>
+                    <select asp-for="Status" class="form-control">
+                        <option value="">Please select a status type</option>
+                        <option value="New">New</option>
+                        <option value="Open">Open</option>
+                        <option value="InProgress">In Progress</option>
+                        <option value="Resolved">Resolved</option>
+                        <option value="AdditionalInfoRequired">Additional Info Required</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Type" class="control-label"></label>
+                    <select asp-for="Type" class="form-control">
+                        <option value="">Please select a ticket type</option>
+                        <option value="BugsErrors">Bugs/Errors</option>
+                        <option value="FeatureRequests">Feature Requests</option>
+                        <option value="OtherComments">Other Comments</option>
+                        <option value="TrainingDocumentRequests">Training/Document Requests</option>
+                    </select>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label for="Attachment">Attachment</label>
+                    <input type="file" name="Attachment" id="Attachment" />
+                </div>
+                <br />
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a href="@ViewBag.Referrer">Back To List</a>
-</div>
+    <div>
+        <a href="@ViewBag.Referrer">Back To List</a>
+    </div>
 
-<!--client side validation using built in partial view-->
-@section Scripts
-    {
-    @{
-        <partial name="_ValidationScriptsPartial.cshtml" />
+    <!--client side validation using built in partial view-->
+    @section Scripts
+        {
+        @{
+            <partial name="_ValidationScriptsPartial.cshtml" />
+        }
     }
+
 }

@@ -1,6 +1,13 @@
 ﻿@model BugTrackerApp.Models.Attachment
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
-@{
+
+@if (User.IsInRole("Admin"))
+{
+
+{
     ViewData["Title"] = "Details";
 }
 
@@ -40,3 +47,5 @@
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+
+}

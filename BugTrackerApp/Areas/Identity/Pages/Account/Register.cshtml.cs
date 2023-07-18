@@ -124,7 +124,7 @@ namespace BugTrackerApp.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
-                    var defaultrole = _roleManager.FindByNameAsync("Developer").Result;
+                    var defaultrole = _roleManager.FindByNameAsync("Member").Result;
 
                     if (defaultrole != null)
                     {

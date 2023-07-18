@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using BugTrackerApp.Data;
 using BugTrackerApp.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BugTrackerApp.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CommentController : Controller
     {
         private readonly ApplicationDbContext _context;

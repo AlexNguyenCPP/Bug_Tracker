@@ -9,9 +9,12 @@ using BugTrackerApp.Data;
 using BugTrackerApp.Models;
 using Microsoft.AspNetCore.Http.Headers;
 using System.Net.Sockets;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BugTrackerApp.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AttachmentController : Controller
     {
         private readonly ApplicationDbContext _context;

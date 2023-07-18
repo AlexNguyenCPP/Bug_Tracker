@@ -1,6 +1,14 @@
 ﻿@model BugTrackerApp.Models.Ticket
 
-@{
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+
+@if (User.IsInRole("Admin"))
+{
+
+{
     ViewData["Title"] = "Details";
 }
 
@@ -158,3 +166,4 @@
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
+}
