@@ -18,10 +18,12 @@ namespace BugTrackerApp.Controllers
     public class AttachmentController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<User> _UserManager;
 
-        public AttachmentController(ApplicationDbContext context)
+        public AttachmentController(ApplicationDbContext context, UserManager<User> userManager)
         {
             _context = context;
+            _UserManager = userManager;
         }
 
         // GET: Attachment
@@ -67,11 +69,19 @@ namespace BugTrackerApp.Controllers
         {
             if (attachment != null && attachment.Length > 0)
             {
+                // retrieve the user
+                var user = await _UserManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    throw new Exception("User not found");
+                }
+
                 var newAttachment = new Attachment
                 {
                     TicketId = id,
                     FileName = attachment.FileName,
-                    ContentType = attachment.ContentType
+                    ContentType = attachment.ContentType,
+                    UserId = user.Id
                 };
 
                 using (var dataStream = new MemoryStream())

@@ -10,6 +10,7 @@ using BugTrackerApp.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Collections;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace BugTrackerApp.Controllers
 {
@@ -17,10 +18,12 @@ namespace BugTrackerApp.Controllers
     public class TicketController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<User> _UserManager;
 
-        public TicketController(ApplicationDbContext context)
+        public TicketController(ApplicationDbContext context, UserManager<User> usermanager)
         {
             _context = context;
+            _UserManager = usermanager;
         }
 
         // GET: Tickets
@@ -56,14 +59,15 @@ namespace BugTrackerApp.Controllers
         }
 
         // GET: Tickets/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+
             // The "Referer" header is a standard HTTP header that is automatically sent by browsers to
             // indicate the URL of the page the user was on before making the current request.
             // This Referrer URL is then stored in the ViewBag under the key "Referrer" so that it can be passed to the view.
             // ViewBag is a dynamic property in ASP.NET MVC that's used to pass temporary data from the controller to the view.
             // It's a wrapper around ViewData that provides a dynamic property for adding to the view data dictionary.
-			ViewBag.Referrer = Request.Headers["Referer"].ToString();
+            ViewBag.Referrer = Request.Headers["Referer"].ToString();
             ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name");
             var projects = _context.Projects.Select(p => new SelectListItem
             {
@@ -85,9 +89,18 @@ namespace BugTrackerApp.Controllers
         {
             // remove Project property from ModelState validation check since it isn't being passed from the view
             ModelState.Remove("Project");
-
+            ModelState.Remove("User");
+            ModelState.Remove("UserId");
+            
             if (ModelState.IsValid)
             {
+                // retrieve the user
+                var user = await _UserManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    throw new Exception("User not found");
+                }
+                ticket.UserId = user.Id;
                 if (attachment != null && attachment.Length > 0)
                 {
                     var newAttachment = new Attachment
@@ -95,6 +108,7 @@ namespace BugTrackerApp.Controllers
                         FileName = Path.GetFileName(attachment.FileName),
                         ContentType = attachment.ContentType,
                         Ticket = ticket,
+                        UserId = user.Id
                     };
 
                     using (var memoryStream = new MemoryStream())

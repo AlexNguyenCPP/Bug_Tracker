@@ -16,11 +16,12 @@ namespace BugTrackerApp.Controllers
     public class CommentController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<User> _UserManager;
 
-        public CommentController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public CommentController(ApplicationDbContext context, UserManager<User> userManager)
         {
             _context = context;
-            _userManager = userManager; 
+            _UserManager = userManager; 
         }
 
         // GET: Comment
@@ -50,7 +51,7 @@ namespace BugTrackerApp.Controllers
             return View(comment);
         }
 
-        private readonly UserManager<IdentityUser> _userManager;
+    
 
   
 
@@ -59,11 +60,18 @@ namespace BugTrackerApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int TicketId, string Text)
         {
+            // retrieve the user
+            var user = await _UserManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new Exception("User not found");
+            }
+
             var comment = new Comment
             {
                 TicketId = TicketId,
                 Message = Text,
-                UserId = _userManager.GetUserId(User),
+                UserId = _UserManager.GetUserId(User),
             };
 
             _context.Add(comment);

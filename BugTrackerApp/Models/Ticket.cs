@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Identity;
 
 namespace BugTrackerApp.Models
 {
@@ -62,6 +63,11 @@ namespace BugTrackerApp.Models
         public DateTime Created { get; set; } = DateTime.Now;
         public ICollection<Comment> Comments { get; set; } = new List<Comment>();
         public ICollection<Attachment> Attachments { get; set; } = new List<Attachment>();
+
+        [ForeignKey("UserId")]                                  // This is optional. Not necessary to specify foreign key because the namining convention is followed.
+                                                                // Foreign key has same name as navigation property with Id appended.
+        public string UserId { get; set; }
+        public User User { get; set; }                  // navigational property to user Model
     }
 
 }

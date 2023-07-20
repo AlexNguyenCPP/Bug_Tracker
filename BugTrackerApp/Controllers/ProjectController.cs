@@ -1,6 +1,7 @@
 ﻿using BugTrackerApp.Data;
 using BugTrackerApp.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,10 +12,15 @@ namespace BugTrackerApp.Controllers
     {
         // retrieve project list
         private readonly ApplicationDbContext _db;
-        public ProjectController(ApplicationDbContext db)
+        private readonly UserManager<User> _userManager; 
+
+        public ProjectController(ApplicationDbContext db, UserManager<User> userManager)
         {
             _db = db;
+            _userManager = userManager;
         }
+
+
 
         public IActionResult Index()
         {
@@ -31,7 +37,7 @@ namespace BugTrackerApp.Controllers
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken] //prevent cross-site request forgery. Not required but recommended
-        public IActionResult Create(Project obj)
+        public async Task<IActionResult> Create(Project obj)
         {
             // make sure the description and the name are not the same
             if (obj.Name == obj.Description)
@@ -39,9 +45,20 @@ namespace BugTrackerApp.Controllers
                 ModelState.AddModelError("Name", "The name cannot match the description");
             }
 
+            ModelState.Remove("User");
+            ModelState.Remove("UserId");
+
             // server side validation
             if (ModelState.IsValid)
             {
+                // retrieve the user
+                var user = await _userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    throw new Exception("User not found");
+                }
+
+                obj.UserId = user.Id;
                 // add the created project to the database
                 _db.Projects.Add(obj);
                 _db.SaveChanges();

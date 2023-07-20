@@ -1,8 +1,8 @@
 ﻿@model BugTrackerApp.Models.Attachment
 
 @using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
 
 @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
