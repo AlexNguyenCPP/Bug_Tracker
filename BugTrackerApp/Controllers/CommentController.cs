@@ -58,7 +58,7 @@ namespace BugTrackerApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int TicketId, string Text)
+        public async Task<IActionResult> Create(int TicketId, string Text, string origin)
         {
             // retrieve the user
             var user = await _UserManager.GetUserAsync(User);
@@ -77,7 +77,8 @@ namespace BugTrackerApp.Controllers
             _context.Add(comment);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Details", "Ticket", new { id = TicketId });
+            
+            return RedirectToAction("Details", "Ticket", new { id = TicketId, origin = origin });
         }
 
 

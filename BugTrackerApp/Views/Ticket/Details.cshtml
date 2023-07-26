@@ -159,6 +159,7 @@
 <h2>Add a Comment</h2>
 <form asp-action="Create" asp-controller="Comment" method="post">
     <input type="hidden" value="@Model.Id" name="TicketId" />
+    <input type="hidden" value="@ViewBag.Origin" name="origin">
     <div class="form-group">
         <label for="commentText">Comment:</label>
         <textarea class="form-control" id="commentText" name="Text" rows="3"></textarea>
