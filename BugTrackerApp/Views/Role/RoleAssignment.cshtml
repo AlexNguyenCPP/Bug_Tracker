@@ -1,0 +1,35 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+@{
+    ViewData["Title"] = "Role Assignment";
+}
+
+@if (User.IsInRole("Admin")) 
+{
+<h1>Role Assignment</h1>
+
+    <form asp-controller = "Role" asp-action="RoleAssignment" method="post">
+        <label for="userId">Select User:</label>
+        <select id="userId" name="userId">
+            @foreach (var user in ViewBag.Users)
+            {
+                <option value="@user.Id">@user.UserName</option>
+            }
+        </select>
+        <br />
+
+        <label>Select Roles:</label><br />
+        @foreach (var role in ViewBag.Roles)
+        {
+            <input type="checkbox" name="selectedRoles" value="@role.Name" /> @role.Name
+
+            <br />
+        }
+        <br />
+
+        <button type="submit">Save</button>
+    </form>
+
+}
