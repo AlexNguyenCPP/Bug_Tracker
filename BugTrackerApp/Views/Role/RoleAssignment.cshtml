@@ -15,7 +15,10 @@
         <select id="userId" name="userId">
             @foreach (var user in ViewBag.Users)
             {
-                <option value="@user.Id">@user.UserName</option>
+                @if (!UserManager.IsInRoleAsync(user, "Admin").Result)
+                {
+                    <option value="@user.Id">@user.UserName</option>
+                }
             }
         </select>
         <br />

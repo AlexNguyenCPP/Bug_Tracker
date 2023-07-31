@@ -20,6 +20,7 @@ namespace BugTrackerApp.Controllers
             _roleManager = roleManager;
         }
 
+        // GET
         public IActionResult RoleAssignment()
         {
             ViewBag.Users = _userManager.Users.ToList();
@@ -27,6 +28,7 @@ namespace BugTrackerApp.Controllers
             return View();
         }
 
+        // POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RoleAssignment(string userId, List<string> selectedRoles)
