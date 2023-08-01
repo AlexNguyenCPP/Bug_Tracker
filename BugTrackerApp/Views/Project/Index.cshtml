@@ -3,29 +3,22 @@
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
-
-@if (User.IsInRole("Admin") || User.IsInRole("Manager"))
-{
-
-    {
-        ViewData["Title"] = "Index";
-    }
-
-
-
-
-    <div class="container p-3">
-        <div class="row pt-4">
-            <div class="col-6">
-                <h2 class="text-primary">Project List</h2>
-            </div>
-            <div class="col-6 text-end">
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Project List</h2>
+        </div>
+        <div class="col-6 text-end">
+            @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+            {
                 <a asp-controller="Project" asp-action="Create" class="btn btn-primary">
                     <i class="bi bi-plus-circle"></i> &nbsp; Create New Project
                 </a>
-            </div>
+            }
         </div>
-        <br /><br />
+    </div>
+    <br /><br />
+
 
 
     <table class="table table-bordered table-striped" style="width:100%">
@@ -64,7 +57,8 @@
             }
         </tbody>
     </table>
+    
 
-    </div>
 
-}
+</div>
+

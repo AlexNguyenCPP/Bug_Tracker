@@ -3,11 +3,12 @@ using BugTrackerApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Build.Construction;
 using Microsoft.EntityFrameworkCore;
 
 namespace BugTrackerApp.Controllers
 {
-    [Authorize(Roles = "Admin, Manager")]
+    [Authorize(Roles = "Admin, Manager, Developer")]
     public class ProjectController : Controller
     {
         // retrieve project list
@@ -22,10 +23,38 @@ namespace BugTrackerApp.Controllers
 
 
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            IEnumerable<Project> objProjectList = _db.Projects;
-            return View(objProjectList);
+            //IEnumerable<Project> objProjectList = _db.Projects;
+            var user = await _userManager.GetUserAsync(User);
+            List<Project> projects;
+
+            // show all projects if the user is an Admin
+            if (await _userManager.IsInRoleAsync(user, "Admin"))
+            {
+                projects = _db.Projects.ToList();
+            }
+
+            // show projects assigned to the manager
+            else if (await _userManager.IsInRoleAsync(user, "Manager"))
+            {
+                projects = _db.Projects.Where(p => p.UserId == user.Id).ToList();
+            }
+
+            // show projects assigned to the developer
+            else if (await _userManager.IsInRoleAsync(user, "Developer"))
+            {
+                projects = _db.Projects.Where(p => p.UserId == user.Id).ToList();
+            }
+
+            // return to homepage if user is just a member
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View(projects);
+
         }
 
         //GET

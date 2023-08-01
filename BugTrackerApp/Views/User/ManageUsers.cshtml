@@ -1,0 +1,25 @@
+﻿@model BugTrackerApp.Models.ManageUsersViewModel
+
+<h1>Manage Users</h1>
+
+<form asp-action="AssignUserToProject" method="post">
+    <label for="userId">Select User:</label>
+    <select id="userId" name="userId">
+        @foreach (var user in Model.Users)
+        {
+            <option value="@user.Id">@user.UserName</option>
+        }
+    </select>
+    <br />
+
+    <label for="projectId">Select Project:</label>
+    <select id="projectId" name="projectId">
+        @foreach (var project in Model.Projects)
+        {
+            <option value="@project.Id">@project.Name</option>
+        }
+    </select>
+    <br />
+
+    <button type="submit">Assign User to Project</button>
+</form>
