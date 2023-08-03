@@ -18,7 +18,6 @@ namespace BugTrackerApp.Controllers
             _context = context;
         }
 
-        // GET
         public IActionResult ManageUsers()
         {
             var viewModel = new ManageUsersViewModel
@@ -30,8 +29,9 @@ namespace BugTrackerApp.Controllers
             return View(viewModel);
         }
 
-        // POST
         [HttpPost]
+        [ValidateAntiForgeryToken] //prevent cross-site request forgery. Not required but recommended
+
         public async Task<IActionResult> AssignUserToProject(string userId, int projectId)
         {
             var user = await _userManager.FindByIdAsync(userId);
@@ -44,6 +44,44 @@ namespace BugTrackerApp.Controllers
             }
 
             return RedirectToAction("ManageUsers");
+        }
+
+
+        // GET
+        [Authorize(Roles = "Admin")]
+
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+
+            var UserFromDb = _context.Users.Find(id);
+            if (UserFromDb != null)
+            {
+                return NotFound();
+            }
+
+            return View(UserFromDb);
+        }
+
+        // POST
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken] //prevent cross-site request forgery. Not required but recommended
+
+        public IActionResult DeletePOST(int? id)
+        {
+            // check if user exists
+            var user = _context.Users.Find(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            _context.Users.Remove(user);
+            _context.SaveChanges();
+            TempData["success"] = "User deleted successfully";
+            return RedirectToAction("Index");
         }
 
     }
