@@ -2,7 +2,7 @@
 
 <h1>Manage Users</h1>
 
-<form asp-action="AssignUserToProject" method="post">
+@*<form asp-action="AssignUserToProject" method="post">
     <label for="userId">Select User:</label>
     <select id="userId" name="userId">
         @foreach (var user in Model.Users)
@@ -22,4 +22,49 @@
     <br />
 
     <button type="submit">Assign User to Project</button>
-</form>
+</form>*@
+
+<div class="container p-3">
+    <table class="table table-bordered table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th>
+                    User
+                </th>
+                <th>
+                    Projects
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obj in Model.Users)
+            {
+                <tr>
+                    <td width="50%">
+                        @obj.UserName
+                    </td>
+                    <td width="30%">
+                        @if (obj.Projects != null)
+                        {
+                            @foreach (var project in obj.Projects)
+                            {
+                                <option value="@project.Id">@project.Name</option>
+                            }
+                        }
+                        
+                    </td>
+                    <td>
+                        <div class="w-75 btn-group" role="group">
+                            <a asp-controller="User" asp-action="Delete" asp-route-id="@obj.Id"
+                               class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+
+</div>

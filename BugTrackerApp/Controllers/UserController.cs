@@ -50,15 +50,15 @@ namespace BugTrackerApp.Controllers
         // GET
         [Authorize(Roles = "Admin")]
 
-        public IActionResult Delete(int? id)
+        public IActionResult Delete(string id)
         {
-            if (id == null || id == 0)
+            if (id == null)
             {
                 return NotFound();
             }
 
             var UserFromDb = _context.Users.Find(id);
-            if (UserFromDb != null)
+            if (UserFromDb == null)
             {
                 return NotFound();
             }
@@ -70,7 +70,7 @@ namespace BugTrackerApp.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken] //prevent cross-site request forgery. Not required but recommended
 
-        public IActionResult DeletePOST(int? id)
+        public IActionResult DeletePOST(string id)
         {
             // check if user exists
             var user = _context.Users.Find(id);
@@ -81,7 +81,7 @@ namespace BugTrackerApp.Controllers
             _context.Users.Remove(user);
             _context.SaveChanges();
             TempData["success"] = "User deleted successfully";
-            return RedirectToAction("Index");
+            return RedirectToAction("ManageUsers");
         }
 
     }
