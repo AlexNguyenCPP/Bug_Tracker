@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace BugTrackerApp.Controllers
 {
-    [Authorize(Roles = "Admin, Manager")]
+    [Authorize(Roles = "Admin, Manager, Developer")]
     public class TicketController : Controller
     {
         private readonly ApplicationDbContext _context;

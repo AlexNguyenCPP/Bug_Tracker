@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace BugTrackerApp.Controllers
 {
-    [Authorize(Roles = "Admin, Manager")]
+    [Authorize(Roles = "Admin, Manager, Developer")]
     public class CommentController : Controller
     {
         private readonly ApplicationDbContext _context;

@@ -4,167 +4,174 @@
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
-
 @if (User.IsInRole("Admin") || User.IsInRole("Manager") || User.IsInRole("Developer"))
 {
-
-{
-    ViewData["Title"] = "Details";
-}
-
-<h1>Details</h1>
-
-<div>
-    <h4>Ticket</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Developer)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Developer)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Priority)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Priority)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Project)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Project.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Created)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Created)
-        </dd>
-    </dl>
-</div>
-
-@*javascript:history.back() method is simpler than referer method but has less control and less stability*@
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a href="@ViewBag.Origin">Back to List</a>
-</div>
-
-@*Attachments Section*@
-<h3>Attachments</h3>
-
-@*add attachment*@
-<div>
-    <a asp-controller="Attachment" asp-action="Create" asp-route-id="@Model.Id" asp-route-origin="@ViewBag.Origin class="btn btn-secondary">
-        <i class="bi bi-plus-circle"></i> &nbsp; Add New Attachment
-    </a>
-    <br />
-</div>
-
-
-<br />
-
-<ul>
-    @foreach (var attachment in Model.Attachments)
     {
-        <li>
-            @attachment.FileName
-            <!-- Add a download link for the file -->
-            <a href="@Url.Action("Download", "Attachment", new { id = attachment.Id })">Download</a>
-            <!-- Add a delete link for the file -->
-            <a href="@Url.Action("Delete", "Attachment", new { id = attachment.Id, origin = ViewBag.Origin })">Delete</a>
-        </li>
+        ViewData["Title"] = "Details";
     }
-</ul>
 
-@* 
-<h3>Attachments</h3>
-<ul>
-    @foreach (var attachment in Model.Attachments)
-    {
-        <li>
-            @attachment.FileName
-            <!-- Add a download link for the file -->
-            <a asp-controller="Attachment" asp-action="Download" asp-route-id="@attachment.Id">Download</a>
-            <!-- Add an edit link for the file -->
-            <a asp-controller="Attachment" asp-action="Edit" asp-route-id="@attachment.Id">Edit</a>
-            <!-- Add a delete link for the file -->
-            <a asp-controller="Attachment" asp-action="Delete" asp-route-id="@attachment.Id">Delete</a>
-        </li>
-    }
-</ul>*@
+    <h1>Details</h1>
 
-
-
-@*Comment Section*@
-<h2>Comments</h2>
-<table class="table table-bordered table-striped" style="width:100%">
-    <thead>
-        <tr>
-            <th>
-                Commenter
-            </th>
-            <th>
-                Message
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var comment in Model.Comments)
-        {
-            <tr>
-                <td width="50%">
-                    @comment.User.Email
-                </td>
-                <td width="30%">
-                    @comment.Message
-                </td>
-                <td width="30%">
-                    @comment.Created
-                </td>
-                <td>
-                    <div class="w-75 btn-group" role="group">
-                        <a asp-controller="Comment" asp-action="Edit" asp-route-id="@comment.Id"
-                           class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i>Edit</a>
-                        <a asp-controller="Comment" asp-action="Delete" asp-route-id="@comment.Id"
-                           class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
-                    </div>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-
-<h2>Add a Comment</h2>
-<form asp-action="Create" asp-controller="Comment" method="post">
-    <input type="hidden" value="@Model.Id" name="TicketId" />
-    <input type="hidden" value="@ViewBag.Origin" name="origin">
-    <div class="form-group">
-        <label for="commentText">Comment:</label>
-        <textarea class="form-control" id="commentText" name="Text" rows="3"></textarea>
+    <div>
+        <h4>Ticket</h4>
+        <hr />
+        <dl class="row">
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Developer)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Developer)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Priority)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Priority)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Status)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Status)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Project)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Project.Name)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Created)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Created)
+            </dd>
+        </dl>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+
+    @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+    {
+        @*javascript:history.back() method is simpler than referer method but has less control and less stability*@
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+            <a href="@ViewBag.Origin">Back to List</a>
+        </div>
+    }
+
+    @*Attachments Section*@
+    <h3>Attachments</h3>
+
+    @*add attachment*@
+    <div>
+        <a asp-controller="Attachment" asp-action="Create" asp-route-id="@Model.Id" asp-route-origin="@ViewBag.Origin class="btn btn-secondary">
+            <i class="bi bi-plus-circle"></i> &nbsp; Add New Attachment
+        </a>
+        <br />
+    </div>
+
+
+    <br />
+
+    <ul>
+        @foreach (var attachment in Model.Attachments)
+        {
+            <li>
+                @attachment.FileName
+                <!-- Add a download link for the file -->
+                <a href="@Url.Action("Download", "Attachment", new { id = attachment.Id })">Download</a>
+                <!-- Add a delete link for the file -->
+                @if (User.IsInRole("Manager") || User.IsInRole("Admin"))
+                {
+                    <a href="@Url.Action("Delete", "Attachment", new { id = attachment.Id, origin = ViewBag.Origin })">Delete</a>
+                }
+            </li>
+        }
+    </ul>
+
+    @* 
+    <h3>Attachments</h3>
+    <ul>
+        @foreach (var attachment in Model.Attachments)
+        {
+            <li>
+                @attachment.FileName
+                <!-- Add a download link for the file -->
+                <a asp-controller="Attachment" asp-action="Download" asp-route-id="@attachment.Id">Download</a>
+                <!-- Add an edit link for the file -->
+                <a asp-controller="Attachment" asp-action="Edit" asp-route-id="@attachment.Id">Edit</a>
+                <!-- Add a delete link for the file -->
+                <a asp-controller="Attachment" asp-action="Delete" asp-route-id="@attachment.Id">Delete</a>
+            </li>
+        }
+    </ul>*@
+
+
+
+    @*Comment Section*@
+    <h2>Comments</h2>
+    <table class="table table-bordered table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th>
+                    Commenter
+                </th>
+                <th>
+                    Message
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var comment in Model.Comments)
+            {
+                <tr>
+                    <td width="50%">
+                        @comment.User.Email
+                    </td>
+                    <td width="30%">
+                        @comment.Message
+                    </td>
+                    <td width="30%">
+                        @comment.Created
+                    </td>
+                    <td>
+                        <div class="w-75 btn-group" role="group">
+                            @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                            {
+                            <a asp-controller="Comment" asp-action="Edit" asp-route-id="@comment.Id"
+                               class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i>Edit</a>
+                            <a asp-controller="Comment" asp-action="Delete" asp-route-id="@comment.Id"
+                               class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
+                            }
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+    <h2>Add a Comment</h2>
+    <form asp-action="Create" asp-controller="Comment" method="post">
+        <input type="hidden" value="@Model.Id" name="TicketId" />
+        <input type="hidden" value="@ViewBag.Origin" name="origin">
+        <div class="form-group">
+            <label for="commentText">Comment:</label>
+            <textarea class="form-control" id="commentText" name="Text" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
 
 }
