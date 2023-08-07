@@ -8,7 +8,7 @@
 
 @if (User.IsInRole("Admin")) 
 {
-<h1>Role Assignment</h1>
+<h2 class="text-primary">Role Assignment</h2>
 
     <form asp-controller = "Role" asp-action="RoleAssignment" method="post">
         <label for="userId">Select User:</label>
@@ -32,7 +32,7 @@
         }
         <br />
 
-        <button type="submit">Save</button>
+        <button type="submit" class="btn btn-primary mx-2">Save</button>
     </form>
 
 }

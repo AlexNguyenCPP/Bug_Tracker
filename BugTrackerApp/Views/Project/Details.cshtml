@@ -4,7 +4,7 @@
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
-@if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+@if (User.IsInRole("Admin") || User.IsInRole("Manager") || User.IsInRole("Developer"))
 {
 
     {

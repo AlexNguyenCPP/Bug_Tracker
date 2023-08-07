@@ -2,7 +2,7 @@
 
 <h1>Manage Users</h1>
 
-@*<form asp-action="AssignUserToProject" method="post">
+<form asp-action="AssignUserToProject" method="post">
     <label for="userId">Select User:</label>
     <select id="userId" name="userId">
         @foreach (var user in Model.Users)
@@ -19,10 +19,11 @@
             <option value="@project.Id">@project.Name</option>
         }
     </select>
-    <br />
+    <br /><br />
 
-    <button type="submit">Assign User to Project</button>
-</form>*@
+    <button type="submit" class="btn btn-primary mx-2">Assign User to Project</button>
+</form>
+<br />
 
 <div class="container p-3">
     <table class="table table-bordered table-striped" style="width:100%">
