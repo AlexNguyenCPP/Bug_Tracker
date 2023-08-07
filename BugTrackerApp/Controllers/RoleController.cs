@@ -54,6 +54,8 @@ namespace BugTrackerApp.Controllers
                 // Handle the error
             }
 
+            TempData["success"] = "User assigned to role successfully";
+
             return RedirectToAction("RoleAssignment");
         }
     }

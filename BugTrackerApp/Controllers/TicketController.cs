@@ -29,9 +29,41 @@ namespace BugTrackerApp.Controllers
         // GET: Tickets
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Ticket.Include(t => t.Project);
-            return View(await applicationDbContext.ToListAsync());
+            // Check the role of the user
+            if (User.IsInRole("Admin"))
+            {
+                // Admin can see all tickets
+                var applicationDbContext = _context.Ticket.Include(t => t.Project);
+                return View(await applicationDbContext.ToListAsync());
+            }
+            else if (User.IsInRole("Manager"))
+            {
+                // Retrieve projects assigned to the manager
+                string userId = _UserManager.GetUserId(User);
+                var managerProjects = _context.Projects.Where(p => p.UserId == userId).Select(p => p.Id).ToList();
+
+                // Get tickets that belong to projects assigned to the manager
+                var applicationDbContext = _context.Ticket.Include(t => t.Project)
+                    .Where(t => managerProjects.Contains(t.ProjectId));
+                return View(await applicationDbContext.ToListAsync());
+            }
+            else if (User.IsInRole("Developer"))
+            {
+                // Retrieve projects assigned to the developer
+                string userId = _UserManager.GetUserId(User);
+                var developerProjects = _context.Projects.Where(p => p.UserId == userId).Select(p => p.Id).ToList();
+
+                // Get tickets that belong to projects assigned to the developer
+                var applicationDbContext = _context.Ticket.Include(t => t.Project)
+                    .Where(t => developerProjects.Contains(t.ProjectId));
+                return View(await applicationDbContext.ToListAsync());
+            }
+            else
+            {
+                return Forbid(); // For other roles or users without roles, deny access
+            }
         }
+
 
         // GET: Tickets/Details/5
         public async Task<IActionResult> Details(int? id, string origin)
@@ -61,24 +93,42 @@ namespace BugTrackerApp.Controllers
         // GET: Tickets/Create
         public async Task<IActionResult> Create()
         {
-
             // The "Referer" header is a standard HTTP header that is automatically sent by browsers to
             // indicate the URL of the page the user was on before making the current request.
             // This Referrer URL is then stored in the ViewBag under the key "Referrer" so that it can be passed to the view.
             // ViewBag is a dynamic property in ASP.NET MVC that's used to pass temporary data from the controller to the view.
             // It's a wrapper around ViewData that provides a dynamic property for adding to the view data dictionary.
             ViewBag.Referrer = Request.Headers["Referer"].ToString();
-            ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name");
-            var projects = _context.Projects.Select(p => new SelectListItem
-            {
-                Value = p.Id.ToString(),
-                Text = p.Name
-            }).ToList();
 
-            ViewBag.ProjectId = projects;
+            string userId = _UserManager.GetUserId(User);
+            var user = await _UserManager.FindByIdAsync(userId);
+
+            // Check the role of the user
+            if (User.IsInRole("Admin"))
+            {
+                ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name");
+            }
+            else if (User.IsInRole("Manager"))
+            {
+                // Retrieve only projects assigned to the manager
+                var managerProjects = _context.Projects.Where(p => p.UserId == userId).ToList();
+                ViewData["ProjectId"] = new SelectList(managerProjects, "Id", "Name");
+            }
+            else if (User.IsInRole("Developer"))
+            {
+                // Retrieve only projects assigned to the developer
+                var developerProjects = _context.Projects.Where(p => p.UserId == userId).ToList();
+                ViewData["ProjectId"] = new SelectList(developerProjects, "Id", "Name");
+            }
+            else
+            {
+                // For other roles or users without roles, don't show any projects
+                ViewData["ProjectId"] = new SelectList(Enumerable.Empty<Project>(), "Id", "Name");
+            }
 
             return View();
         }
+
 
         // POST: Tickets/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.

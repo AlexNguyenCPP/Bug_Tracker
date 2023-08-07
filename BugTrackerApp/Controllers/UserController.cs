@@ -43,6 +43,7 @@ namespace BugTrackerApp.Controllers
                 await _context.SaveChangesAsync();
             }
 
+            TempData["success"] = "User assigned to project successfully";
             return RedirectToAction("ManageUsers");
         }
 
