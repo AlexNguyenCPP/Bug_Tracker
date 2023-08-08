@@ -14,13 +14,13 @@
     @if (User.IsInRole("Admin") || User.IsInRole("Manager") || User.IsInRole("Member") || User.IsInRole("Developer"))
     {
         <header>
-            <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+            <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Navbar</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+                    <a class="navbar-brand" href="#">Bug Tracker</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <div class="collapse navbar-collapse" id="navbarColor02">
+                    <div class="collapse navbar-collapse" id="navbarColor01">
                         <ul class="navbar-nav me-auto">
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
@@ -69,7 +69,7 @@
         </main>
     </div>
 
-    <footer class="footer text-muted bg-dark">
+    <footer class="footer text-muted">
         <div class="container">
             &copy; 2023 - BugTrackerApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
